@@ -1,46 +1,42 @@
 parameters:
-- name: pool
-  displayName: 'Agent Pool'
-  type: string
-  default: 'Azure Pipelines'
-  values:
-  - 'Azure Pipelines'
-  - 'Self-hosted'
+  - name: pool
+    displayName: 'Agent Pool'
+    type: string
+    default: 'Azure Pipelines'
+    values:
+      - 'Azure Pipelines'
+      - 'Self-hosted'
 
 trigger:
   tags:
     include:
-    - '*'
-  branches:
-    include:
-    - release/*
-    - hotfix/*
+      - '*'
 
 pr:
   branches:
     include:
-    - develop
-    - master
-    - main
+      - develop
+      - master
+      - main
 
 resources:
   repositories:
-  - repository: templates
-    endpoint: thenoobsbr
-    type: github
-    name: TheNoobsBr/Azure-Templates
-    ref: refs/tags/1.0.0
+    - repository: templates
+      endpoint: thenoobsbr
+      type: github
+      name: TheNoobsBr/Azure-Templates
+      ref: refs/tags/1.0.0
 
 variables:
-- template: variables.yml
+  - template: variables.yml
 
 stages:
-- template: templates/gitflow_calculate_version.yml@templates
-  parameters:
-    pool: ${{ parameters.pool }}
-- template: templates/library_build.yml@templates
-  parameters:
-    pool: ${{ parameters.pool }}
-- template: templates/library_deploy.yml@templates
-  parameters:
-    pool: ${{ parameters.pool }}
+  - template: templates/gitflow_calculate_version.yml@templates
+    parameters:
+      pool: ${{ parameters.pool }}
+  - template: templates/library_build.yml@templates
+    parameters:
+      pool: ${{ parameters.pool }}
+  - template: templates/library_deploy.yml@templates
+    parameters:
+      pool: ${{ parameters.pool }}
