@@ -16,24 +16,26 @@ public class ResultTests
     public void Given_AnErrorResponse_When_DoASwitch_Then_ItShouldWorks()
     {
         var response = WhateverServiceStub.GetError();
+        response.IsFail().Should().BeTrue();
+        response.IsSuccess().Should().BeFalse();
         var executed = false;
         response
             .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
             .Case<MyError>(DoOnMyError)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
         void DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyError(MyError error)
@@ -45,7 +47,7 @@ public class ResultTests
 
         void DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -58,18 +60,18 @@ public class ResultTests
             .SwitchAsync()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
         Task DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         Task DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task DoOnDefault(IResult def)
@@ -94,19 +96,19 @@ public class ResultTests
             .SwitchAsync<int>()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(0);
 
         Task<int> DoOnSuccess(Success<string> _)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         Task<int> DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task<int> DoOnDefault(IResult def)
@@ -133,18 +135,18 @@ public class ResultTests
             .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
         void DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnDefault(IResult def)
@@ -168,19 +170,19 @@ public class ResultTests
             .Switch<int>()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(0);
 
         int DoOnSuccess(Success<string> _)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         int DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         int DoOnDefault(IResult def)
@@ -205,13 +207,13 @@ public class ResultTests
             .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
         void DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyValidation(MyValidation validation)
@@ -222,7 +224,7 @@ public class ResultTests
 
         void DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -234,13 +236,13 @@ public class ResultTests
         await response
             .SwitchAsync()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
         Task DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task DoOnDefault(IResult def)
@@ -266,14 +268,14 @@ public class ResultTests
         var result = await response
             .SwitchAsync<int>()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
 
         Task<int> DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task<int> DoOnDefault(IResult def)
@@ -287,7 +289,7 @@ public class ResultTests
             isValueObtained.Should().BeTrue();
             r.Should().Be(value);
 
-            return r! * 2;
+            return r * 2;
         }
     }
 
@@ -299,13 +301,13 @@ public class ResultTests
         response
             .Switch()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
         void DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnDefault(IResult def)
@@ -330,14 +332,14 @@ public class ResultTests
         var result = response
             .Switch<int>()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
 
         int DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         int DoOnDefault(IResult def)
@@ -349,8 +351,18 @@ public class ResultTests
             isValueObtained.Should().BeTrue();
             r.Should().Be(value);
 
-            return r! * 2;
+            return r * 2;
         }
+    }
+
+    [Fact]
+    public void Given_ANullValidation_When_TriesToAssignToResultVar_Then_AnExceptionShouldBeThrown()
+    {
+        MyValidation? validation = null;
+        Result<string>? result = null;
+        var action = () => result = validation!;
+        action.Should().Throw<ArgumentNullException>();
+        result.Should().BeNull();
     }
 
     [Fact]
@@ -361,7 +373,7 @@ public class ResultTests
         response
             .Switch()
             .Case<Success<string>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -373,7 +385,7 @@ public class ResultTests
 
         void DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -387,7 +399,7 @@ public class ResultTests
         await response
             .SwitchAsync()
             .Case<Success<int>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -402,7 +414,7 @@ public class ResultTests
         async Task DoOnDefault(IResult fail)
         {
             await Task.Delay(20);
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -416,7 +428,7 @@ public class ResultTests
         var result = await response
             .SwitchAsync<int>()
             .Case<Success<int>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
@@ -433,7 +445,7 @@ public class ResultTests
         async Task<int> DoOnDefault(IResult fail)
         {
             await Task.Delay(20);
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -447,7 +459,7 @@ public class ResultTests
         var result = response
             .Switch<int>()
             .Case<Success<int>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
@@ -461,7 +473,7 @@ public class ResultTests
 
         int DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 }

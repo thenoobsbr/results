@@ -12,15 +12,9 @@ public abstract class Result : IResult
         _result = result;
     }
 
-    public bool IsFail()
-    {
-        return this is IFail;
-    }
+    public abstract bool IsFail();
 
-    public bool IsSuccess()
-    {
-        return this is ISuccess;
-    }
+    public abstract bool IsSuccess();
 
     public Switch Switch()
     {
@@ -98,6 +92,16 @@ public abstract class Result<T> : Result, IResult<T>
         public IFail GetFail()
         {
             return _fail;
+        }
+
+        public override bool IsFail()
+        {
+            return _fail.IsFail();
+        }
+
+        public override bool IsSuccess()
+        {
+            return _fail.IsSuccess();
         }
     }
 }
