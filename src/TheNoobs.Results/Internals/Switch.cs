@@ -13,21 +13,21 @@ public class Switch<TResult>
         _actions = new Dictionary<Type, Func<TResult>>();
     }
 
-    public TResult Default(Func<IResult, TResult> defaultAction)
+    public Switch<TResult> Case<TResultItem>(Func<TResultItem, TResult> action)
+        where TResultItem : IResult
+    {
+        var result = UnWrapper.Unwrap(_result);
+        _actions.Add(typeof(TResultItem), () => action((TResultItem) result));
+        return this;
+    }
+
+    public TResult Else(Func<IResult, TResult> defaultAction)
     {
         var result = UnWrapper.Unwrap(_result);
         var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
         return action is null
             ? defaultAction(result)
             : action();
-    }
-
-    public Switch<TResult> Case<TResultItem>(Func<TResultItem, TResult> action)
-        where TResultItem : IResult
-    {
-        var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResultItem), () => action((TResultItem)result));
-        return this;
     }
 }
 
@@ -42,7 +42,15 @@ public class Switch
         _actions = new Dictionary<Type, Action>();
     }
 
-    public void Default(Action<IResult> defaultAction)
+    public Switch Case<TResult>(Action<TResult> action)
+        where TResult : IResult
+    {
+        var result = UnWrapper.Unwrap(_result);
+        _actions.Add(typeof(TResult), () => action((TResult) result));
+        return this;
+    }
+
+    public void Else(Action<IResult> defaultAction)
     {
         var result = UnWrapper.Unwrap(_result);
         var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
@@ -53,13 +61,5 @@ public class Switch
         }
 
         action();
-    }
-
-    public Switch Case<TResult>(Action<TResult> action)
-        where TResult : IResult
-    {
-        var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResult), () => action((TResult)result));
-        return this;
     }
 }

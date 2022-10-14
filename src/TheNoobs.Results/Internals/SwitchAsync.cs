@@ -17,11 +17,11 @@ public class SwitchAsync<TResult>
         where TResultItem : IResult
     {
         var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResultItem), () => action((TResultItem)result));
+        _actions.Add(typeof(TResultItem), () => action((TResultItem) result));
         return this;
     }
 
-    public Task<TResult> Default(Func<IResult, Task<TResult>> defaultAction)
+    public Task<TResult> Else(Func<IResult, Task<TResult>> defaultAction)
     {
         var result = UnWrapper.Unwrap(_result);
         var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
@@ -46,11 +46,11 @@ public class SwitchAsync
         where TResult : IResult
     {
         var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResult), () => action((TResult)result));
+        _actions.Add(typeof(TResult), () => action((TResult) result));
         return this;
     }
 
-    public Task Default(Func<IResult, Task> defaultAction)
+    public Task Else(Func<IResult, Task> defaultAction)
     {
         var result = UnWrapper.Unwrap(_result);
         var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
