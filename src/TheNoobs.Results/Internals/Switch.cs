@@ -4,62 +4,67 @@ namespace TheNoobs.Results.Internals;
 
 public class Switch<TResult>
 {
-    private readonly IDictionary<Type, Func<TResult>> _actions;
-    private readonly IResult _result;
+    private readonly IResult _resultItem;
+    private TResult? _result;
 
     internal Switch(IResult result)
     {
-        _result = result ?? throw new ArgumentNullException(nameof(result));
-        _actions = new Dictionary<Type, Func<TResult>>();
+        _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
+    }
+
+    public TResult Else(Func<IResult, TResult> defaultAction)
+    {
+        if (!Equals(_result, default(TResult)))
+        {
+            return _result!;
+        }
+        return defaultAction(_resultItem);
     }
 
     public Switch<TResult> Case<TResultItem>(Func<TResultItem, TResult> action)
         where TResultItem : IResult
     {
-        var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResultItem), () => action((TResultItem) result));
+        if (_resultItem is not TResultItem item)
+        {
+            return this;
+        }
+        
+        _result = action(item);
         return this;
-    }
-
-    public TResult Else(Func<IResult, TResult> defaultAction)
-    {
-        var result = UnWrapper.Unwrap(_result);
-        var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
-        return action is null
-            ? defaultAction(result)
-            : action();
     }
 }
 
 public class Switch
 {
-    private readonly IDictionary<Type, Action> _actions;
-    private readonly IResult _result;
+    private readonly IResult _resultItem;
+    private bool _executed;
 
     internal Switch(IResult result)
     {
-        _result = result ?? throw new ArgumentNullException(nameof(result));
-        _actions = new Dictionary<Type, Action>();
+        _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
     }
-
-    public Switch Case<TResult>(Action<TResult> action)
-        where TResult : IResult
-    {
-        var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResult), () => action((TResult) result));
-        return this;
-    }
-
+    
     public void Else(Action<IResult> defaultAction)
     {
-        var result = UnWrapper.Unwrap(_result);
-        var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
-        if (action is null)
+        if (_executed)
         {
-            defaultAction(result);
             return;
         }
 
-        action();
+        defaultAction(_resultItem);
+    }
+
+    public Switch Case<TResultItem>(Action<TResultItem> action)
+        where TResultItem : IResult
+    {
+        if (_resultItem is not TResultItem item)
+        {
+            return this;
+        }
+
+        action(item);
+        _executed = true;
+        
+        return this;
     }
 }

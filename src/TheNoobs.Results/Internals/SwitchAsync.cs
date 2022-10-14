@@ -4,58 +4,56 @@ namespace TheNoobs.Results.Internals;
 
 public class SwitchAsync<TResult>
 {
-    private readonly IDictionary<Type, Func<Task<TResult>>> _actions;
-    private readonly IResult _result;
+    private readonly IResult _resultItem;
+    private Task<TResult>? _result;
 
     internal SwitchAsync(IResult result)
     {
-        _result = result ?? throw new ArgumentNullException(nameof(result));
-        _actions = new Dictionary<Type, Func<Task<TResult>>>();
+        _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
+    }
+    
+    public Task<TResult> Else(Func<IResult, Task<TResult>> defaultAction)
+    {
+        return _result ?? defaultAction(_resultItem);
     }
 
     public SwitchAsync<TResult> Case<TResultItem>(Func<TResultItem, Task<TResult>> action)
         where TResultItem : IResult
     {
-        var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResultItem), () => action((TResultItem) result));
+        if (_resultItem is not TResultItem item)
+        {
+            return this;
+        }
+        
+        _result = action(item);
         return this;
-    }
-
-    public Task<TResult> Else(Func<IResult, Task<TResult>> defaultAction)
-    {
-        var result = UnWrapper.Unwrap(_result);
-        var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
-        return action is null
-            ? defaultAction(result)
-            : action();
     }
 }
 
 public class SwitchAsync
 {
-    private readonly IDictionary<Type, Func<Task>> _actions;
-    private readonly IResult _result;
+    private Task? _result;
+    private readonly IResult _resultItem;
 
     internal SwitchAsync(IResult result)
     {
-        _result = result ?? throw new ArgumentNullException(nameof(result));
-        _actions = new Dictionary<Type, Func<Task>>();
+        _resultItem = result ?? throw new ArgumentNullException(nameof(result));
     }
-
-    public SwitchAsync Case<TResult>(Func<TResult, Task> action)
-        where TResult : IResult
-    {
-        var result = UnWrapper.Unwrap(_result);
-        _actions.Add(typeof(TResult), () => action((TResult) result));
-        return this;
-    }
-
+    
     public Task Else(Func<IResult, Task> defaultAction)
     {
-        var result = UnWrapper.Unwrap(_result);
-        var action = _actions.FirstOrDefault(a => a.Key.IsInstanceOfType(result)).Value;
-        return action is null
-            ? defaultAction(result)
-            : action();
+        return _result ?? defaultAction(_resultItem);
+    }
+
+    public SwitchAsync Case<TResultItem>(Func<TResultItem, Task> action)
+        where TResultItem : IResult
+    {
+        if (_resultItem is not TResultItem item)
+        {
+            return this;
+        }
+
+        _result = action(item);
+        return this;
     }
 }
