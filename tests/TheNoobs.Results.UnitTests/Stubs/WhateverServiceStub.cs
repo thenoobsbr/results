@@ -8,6 +8,12 @@ public static class WhateverServiceStub
         return new MyError(ex.Message, ex);
     }
 
+    public static Result<string> GetSpecificError()
+    {
+        var ex = new TimeoutException("This is a specific error example.");
+        return new MySpecificError(ex.Message, ex);
+    }
+
     public static Result<string> GetSuccess()
     {
         return "This is my success message.";

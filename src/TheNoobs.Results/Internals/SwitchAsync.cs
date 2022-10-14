@@ -2,58 +2,70 @@
 
 namespace TheNoobs.Results.Internals;
 
-public class SwitchAsync<TResult>
+public class SwitchAsync<TResponse>
 {
     private readonly IResult _resultItem;
-    private Task<TResult>? _result;
+    private bool _executed;
+    private Task<TResponse>? _result;
 
     internal SwitchAsync(IResult result)
     {
         _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
-    }
-    
-    public Task<TResult> Else(Func<IResult, Task<TResult>> defaultAction)
-    {
-        return _result ?? defaultAction(_resultItem);
+        _executed = false;
     }
 
-    public SwitchAsync<TResult> Case<TResultItem>(Func<TResultItem, Task<TResult>> action)
-        where TResultItem : IResult
+    public SwitchAsync<TResponse> Case<TResult>(Func<TResult, Task<TResponse>> action)
+        where TResult : IResult
     {
-        if (_resultItem is not TResultItem item)
+        if (_executed || _resultItem is not TResult item)
         {
             return this;
         }
-        
+
         _result = action(item);
+        _executed = true;
+
         return this;
+    }
+
+    public Task<TResponse> Else(Func<IResult, Task<TResponse>> defaultAction)
+    {
+        return _executed
+            ? _result!
+            : defaultAction(_resultItem);
     }
 }
 
 public class SwitchAsync
 {
-    private Task? _result;
     private readonly IResult _resultItem;
+    private bool _executed;
+    private Task? _result;
 
     internal SwitchAsync(IResult result)
     {
-        _resultItem = result ?? throw new ArgumentNullException(nameof(result));
-    }
-    
-    public Task Else(Func<IResult, Task> defaultAction)
-    {
-        return _result ?? defaultAction(_resultItem);
+        _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
+        _executed = false;
     }
 
-    public SwitchAsync Case<TResultItem>(Func<TResultItem, Task> action)
-        where TResultItem : IResult
+    public SwitchAsync Case<TResult>(Func<TResult, Task> action)
+        where TResult : IResult
     {
-        if (_resultItem is not TResultItem item)
+        if (_executed || _resultItem is not TResult item)
         {
             return this;
         }
 
         _result = action(item);
+        _executed = true;
+
         return this;
+    }
+
+    public Task Else(Func<IResult, Task> defaultAction)
+    {
+        return _executed
+            ? _result!
+            : defaultAction(_resultItem);
     }
 }
