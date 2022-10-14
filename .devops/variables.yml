@@ -1,0 +1,4 @@
+variables:
+  - group: results
+  - group: sonar
+  - group: nuget

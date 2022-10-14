@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ACD70BE2-C366-4C17-8BEF-0C2E9B0D64B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNoobs.Results", "src\TheNoobs.Results\TheNoobs.Results.csproj", "{C9E6A926-6DE0-40C4-817F-B471C0130C59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E30E94BF-8338-4C75-8E7A-48DE20439FF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNoobs.Results.UnitTests", "tests\TheNoobs.Results.UnitTests\TheNoobs.Results.UnitTests.csproj", "{5B36B2FF-2857-4C97-A752-ED495A08E709}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devops", ".devops", "{B900CD7F-D061-46A8-BF76-57FA1DAC4824}"
+	ProjectSection(SolutionItems) = preProject
+		.devops\azuredevops.yml = .devops\azuredevops.yml
+		.devops\variables.yml = .devops\variables.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F87BB760-4DFE-4FD2-9265-D05274167827}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		coverlet.runsettings = coverlet.runsettings
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{315559FD-3821-4222-88B3-47B35034BD4F}"
+	ProjectSection(SolutionItems) = preProject
+		images\icon.png = images\icon.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9E6A926-6DE0-40C4-817F-B471C0130C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E6A926-6DE0-40C4-817F-B471C0130C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E6A926-6DE0-40C4-817F-B471C0130C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E6A926-6DE0-40C4-817F-B471C0130C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9E6A926-6DE0-40C4-817F-B471C0130C59} = {ACD70BE2-C366-4C17-8BEF-0C2E9B0D64B6}
+		{5B36B2FF-2857-4C97-A752-ED495A08E709} = {E30E94BF-8338-4C75-8E7A-48DE20439FF5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D559252B-F98A-4192-9401-9DB96AE31BE1}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <OutputType>library</OutputType>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyTitle>TheNoobs.Results</AssemblyTitle>
+    <AssemblyName>TheNoobs.Results</AssemblyName>
+    <RootNamespace>TheNoobs.Results</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>The Noobs</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Result pattern to avoid the usage of exceptions in making decisions.</Description>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageId>TheNoobs.Results</PackageId>
+    <PackageTags>Result pattern;</PackageTags>
+    <UserSecretsId>93f250ca-80a2-48ce-ba7f-48cba30f7b79</UserSecretsId>
+    <Version>1.0.0</Version>
+    <PackageProjectUrl>https://github.com/thenoobsbr/results.git</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\images\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
