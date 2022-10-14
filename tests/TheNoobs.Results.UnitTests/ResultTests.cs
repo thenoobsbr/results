@@ -13,9 +13,21 @@ namespace TheNoobs.Results.UnitTests;
 public class ResultTests
 {
     [Fact]
+    public void Given_ANullValidation_When_TriesToAssignToResultVar_Then_AnExceptionShouldBeThrown()
+    {
+        MyValidation? validation = null;
+        Result<string>? result = null;
+        var action = () => result = validation!;
+        action.Should().Throw<ArgumentNullException>();
+        result.Should().BeNull();
+    }
+
+    [Fact]
     public void Given_AnErrorResponse_When_DoASwitch_Then_ItShouldWorks()
     {
         var response = WhateverServiceStub.GetError();
+        response.IsFail().Should().BeTrue();
+        response.IsSuccess().Should().BeFalse();
         var executed = false;
         response
             .Switch()

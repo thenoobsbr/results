@@ -96,12 +96,12 @@ public abstract class Result<T> : Result, IResult<T>
 
         public override bool IsFail()
         {
-            return true;
+            return _fail.IsFail();
         }
 
         public override bool IsSuccess()
         {
-            return false;
+            return _fail.IsSuccess();
         }
     }
 }
