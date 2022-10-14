@@ -2,26 +2,26 @@
 
 namespace TheNoobs.Results.Internals;
 
-public class Switch<TReturn>
+public class Switch<TResult>
 {
     private readonly IResult _resultItem;
-    private TReturn? _result;
+    private TResult? _result;
 
     internal Switch(IResult result)
     {
         _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
     }
 
-    public TReturn Else(Func<IResult, TReturn> defaultAction)
+    public TResult Else(Func<IResult, TResult> defaultAction)
     {
-        if (!Equals(_result, default(TReturn)))
+        if (!Equals(_result, default(TResult)))
         {
             return _result!;
         }
         return defaultAction(_resultItem);
     }
 
-    public Switch<TReturn> Case<TResultItem>(Func<TResultItem, TReturn> action)
+    public Switch<TResult> Case<TResultItem>(Func<TResultItem, TResult> action)
         where TResultItem : IResult
     {
         if (_resultItem is not TResultItem item)
