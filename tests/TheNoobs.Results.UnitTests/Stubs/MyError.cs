@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheNoobs.Results.Abstractions;
+﻿namespace TheNoobs.Results.UnitTests.Stubs;
 
-namespace TheNoobs.Results.UnitTests.Stubs
+public class MyError : Fail
 {
-    public class MyError : Fail
+    public MyError(string message, Exception ex) : base(message)
     {
-        public Exception Ex { get; }
-
-        public MyError(string message, Exception ex) : base(message)
-        {
-            Ex = ex;
-        }
+        Ex = ex;
     }
+
+    public Exception Ex { get; }
 }

@@ -9,4 +9,14 @@ public sealed class Success<TResult> : Result<TResult>, ISuccess
         : base(result)
     {
     }
+
+    public override bool IsFail()
+    {
+        return false;
+    }
+
+    public override bool IsSuccess()
+    {
+        return true;
+    }
 }

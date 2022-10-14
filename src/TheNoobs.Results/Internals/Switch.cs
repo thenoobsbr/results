@@ -43,7 +43,7 @@ public class Switch
     {
         _resultItem = UnWrapper.Unwrap(result ?? throw new ArgumentNullException(nameof(result)));
     }
-
+    
     public void Else(Action<IResult> defaultAction)
     {
         if (_executed)
