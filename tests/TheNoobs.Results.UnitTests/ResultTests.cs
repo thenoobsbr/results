@@ -13,16 +13,6 @@ namespace TheNoobs.Results.UnitTests;
 public class ResultTests
 {
     [Fact]
-    public void Given_ANullValidation_When_TriesToAssignToResultVar_Then_AnExceptionShouldBeThrown()
-    {
-        MyValidation? validation = null;
-        Result<string>? result = null;
-        var action = () => result = validation!;
-        action.Should().Throw<ArgumentNullException>();
-        result.Should().BeNull();
-    }
-
-    [Fact]
     public void Given_AnErrorResponse_When_DoASwitch_Then_ItShouldWorks()
     {
         var response = WhateverServiceStub.GetError();
@@ -40,12 +30,12 @@ public class ResultTests
 
         void DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyError(MyError error)
@@ -57,7 +47,7 @@ public class ResultTests
 
         void DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -76,12 +66,12 @@ public class ResultTests
 
         Task DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         Task DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task DoOnDefault(IResult def)
@@ -113,12 +103,12 @@ public class ResultTests
 
         Task<int> DoOnSuccess(Success<string> _)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         Task<int> DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task<int> DoOnDefault(IResult def)
@@ -151,12 +141,12 @@ public class ResultTests
 
         void DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnDefault(IResult def)
@@ -187,12 +177,12 @@ public class ResultTests
 
         int DoOnSuccess(Success<string> _)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         int DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         int DoOnDefault(IResult def)
@@ -223,7 +213,7 @@ public class ResultTests
 
         void DoOnSuccess(Success<string> result)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnMyValidation(MyValidation validation)
@@ -234,7 +224,7 @@ public class ResultTests
 
         void DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -252,7 +242,7 @@ public class ResultTests
 
         Task DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task DoOnDefault(IResult def)
@@ -285,7 +275,7 @@ public class ResultTests
 
         Task<int> DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         async Task<int> DoOnDefault(IResult def)
@@ -299,7 +289,7 @@ public class ResultTests
             isValueObtained.Should().BeTrue();
             r.Should().Be(value);
 
-            return r! * 2;
+            return r * 2;
         }
     }
 
@@ -317,7 +307,7 @@ public class ResultTests
 
         void DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         void DoOnDefault(IResult def)
@@ -349,7 +339,7 @@ public class ResultTests
 
         int DoOnMyValidation(MyValidation validation)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
 
         int DoOnDefault(IResult def)
@@ -361,8 +351,18 @@ public class ResultTests
             isValueObtained.Should().BeTrue();
             r.Should().Be(value);
 
-            return r! * 2;
+            return r * 2;
         }
+    }
+
+    [Fact]
+    public void Given_ANullValidation_When_TriesToAssignToResultVar_Then_AnExceptionShouldBeThrown()
+    {
+        MyValidation? validation = null;
+        Result<string>? result = null;
+        var action = () => result = validation!;
+        action.Should().Throw<ArgumentNullException>();
+        result.Should().BeNull();
     }
 
     [Fact]
@@ -385,7 +385,7 @@ public class ResultTests
 
         void DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -414,7 +414,7 @@ public class ResultTests
         async Task DoOnDefault(IResult fail)
         {
             await Task.Delay(20);
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -445,7 +445,7 @@ public class ResultTests
         async Task<int> DoOnDefault(IResult fail)
         {
             await Task.Delay(20);
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 
@@ -473,7 +473,7 @@ public class ResultTests
 
         int DoOnDefault(IResult fail)
         {
-            throw new NotImplementedException("This method cannot be called in this context.");
+            throw new Exception("This method cannot be called in this context.");
         }
     }
 }
