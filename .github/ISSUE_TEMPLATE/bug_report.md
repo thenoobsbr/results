@@ -1,10 +1,12 @@
-<!--
-This is a guide to use this issue template.
+---
+name: Bug report
+about: Create a report to help us improve
+title: '[Bug] '
+labels: ['bug', 'triage']
+assignees: ''
 
-# Title
-[Issue] An exception occours when...
-[Question] How to use that in this situation?
--->
+---
+
 
 # General overview
 
