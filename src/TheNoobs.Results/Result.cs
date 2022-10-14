@@ -80,7 +80,7 @@ public abstract class Result<T> : Result, IResult<T>
         return _result;
     }
 
-    public class FailWrappedResult : Result<T>, IFail, IFailWrappedResult
+    public class FailWrappedResult : Result<T>, IFailWrappedResult
     {
         private readonly IFail _fail;
 
