@@ -22,7 +22,7 @@ public class ResultTests
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
             .Case<MyError>(DoOnMyError)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -58,7 +58,7 @@ public class ResultTests
             .SwitchAsync()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -94,7 +94,7 @@ public class ResultTests
             .SwitchAsync<int>()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(0);
@@ -133,7 +133,7 @@ public class ResultTests
             .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -168,7 +168,7 @@ public class ResultTests
             .Switch<int>()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(0);
@@ -205,7 +205,7 @@ public class ResultTests
             .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -234,7 +234,7 @@ public class ResultTests
         await response
             .SwitchAsync()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -266,7 +266,7 @@ public class ResultTests
         var result = await response
             .SwitchAsync<int>()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
@@ -299,7 +299,7 @@ public class ResultTests
         response
             .Switch()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -330,7 +330,7 @@ public class ResultTests
         var result = response
             .Switch<int>()
             .Case<MyValidation>(DoOnMyValidation)
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
@@ -361,7 +361,7 @@ public class ResultTests
         response
             .Switch()
             .Case<Success<string>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -387,7 +387,7 @@ public class ResultTests
         await response
             .SwitchAsync()
             .Case<Success<int>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
 
@@ -416,7 +416,7 @@ public class ResultTests
         var result = await response
             .SwitchAsync<int>()
             .Case<Success<int>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
@@ -447,7 +447,7 @@ public class ResultTests
         var result = response
             .Switch<int>()
             .Case<Success<int>>(success => DoOnSuccess(success))
-            .Default(DoOnDefault);
+            .Else(DoOnDefault);
 
         executed.Should().BeTrue();
         result.Should().Be(value * 2);
