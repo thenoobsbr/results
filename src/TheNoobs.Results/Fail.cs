@@ -11,4 +11,14 @@ public abstract class Fail : Result, IFail
     }
 
     public string Message { get; }
+
+    public override bool IsFail()
+    {
+        return true;
+    }
+
+    public override bool IsSuccess()
+    {
+        return false;
+    }
 }
