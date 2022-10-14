@@ -163,7 +163,7 @@ public class Service
 
                         return something.GetResult();
                     })
-                    .Default(another => throw new Exception("You can do a type check and process as you wish."));
+                    .Else(another => throw new Exception("You can do a type check and process as you wish."));
             }
             catch (Exception ex)
             {
