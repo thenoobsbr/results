@@ -1,6 +1,14 @@
-# Results
+﻿# Results
 
 The Result pattern to avoid the usage of exceptions in making decisions.
+
+[![Nuget](https://buildstats.info/nuget/TheNoobs.Results)](https://www.nuget.org/packages/TheNoobs.Results)
+![License](https://img.shields.io/github/license/thenoobsbr/results)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=thenoobsbr_results&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=thenoobsbr_results)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=thenoobsbr_results&metric=bugs)](https://sonarcloud.io/summary/new_code?id=thenoobsbr_results)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=thenoobsbr_results&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=thenoobsbr_results)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=thenoobsbr_results&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=thenoobsbr_results)
+
 
 ## Objectives
 
@@ -166,4 +174,5 @@ public class Service
     }
 ```
 
-
+---
+> ♥ Made with love!
