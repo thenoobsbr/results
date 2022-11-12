@@ -14,6 +14,75 @@ namespace TheNoobs.Results.UnitTests;
 public class ResultTests
 {
     [Fact]
+    public void
+        Given_AnAsyncErrorResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
+    {
+        var executed = false;
+        WhateverAsyncServiceStub.GetErrorAsync()
+            .Switch()
+            .Case<Success<string>>(DoOnSuccess)
+            .Case<MyValidation>(DoOnMyValidation)
+            .Else(DoOnElse);
+
+        executed.Should().BeTrue();
+
+        void DoOnSuccess(Success<string> result)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnMyValidation(MyValidation validation)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnElse(IResult def)
+        {
+            executed = true;
+            def.IsSuccess().Should().BeFalse();
+            def.IsFail().Should().BeTrue();
+            var isValueObtained = def.TryGetResult<string>(out var r);
+            isValueObtained.Should().BeFalse();
+            r.Should().Be(default);
+        }
+    }
+
+    [Fact]
+    public void Given_AnAsyncErrorResponse_When_DoASwitchWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
+    {
+        var executed = false;
+        WhateverAsyncServiceStub.GetSpecificErrorAsync()
+            .Switch()
+            .Case<Success<string>>(DoOnSuccess)
+            .Case<MySpecificError>(DoOnMySpecificError)
+            .Case<MyError>(DoOnMyError)
+            .Else(DoOnElse);
+
+        executed.Should().BeTrue();
+
+        void DoOnSuccess(Success<string> result)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnMyError(MyError error)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnMySpecificError(MySpecificError error)
+        {
+            executed = true;
+            error.Message.Should().Be("This is a specific error example.");
+        }
+
+        void DoOnElse(IResult def)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+    }
+
+    [Fact]
     public async Task Given_AnErrorResponse_When_DoAResultSwitchAsyncWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
     {
         var response = await WhateverAsyncServiceStub.GetSpecificErrorAsync();
@@ -134,7 +203,7 @@ public class ResultTests
     {
         var executed = false;
         await WhateverAsyncServiceStub.GetSpecificErrorAsync()
-            .Switch()
+            .SwitchAsync()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MySpecificError>(DoOnMySpecificError)
             .Case<MyError>(DoOnMyError)
@@ -171,7 +240,7 @@ public class ResultTests
     {
         var executed = false;
         await WhateverAsyncServiceStub.GetErrorAsync()
-            .Switch()
+            .SwitchAsync()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
             .Else(DoOnElse);
