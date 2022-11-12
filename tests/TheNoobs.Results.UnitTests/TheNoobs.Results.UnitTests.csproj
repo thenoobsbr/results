@@ -34,6 +34,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\TheNoobs.Results.Extensions\TheNoobs.Results.Extensions.csproj" />
     <ProjectReference Include="..\..\src\TheNoobs.Results\TheNoobs.Results.csproj" />
   </ItemGroup>
 </Project>

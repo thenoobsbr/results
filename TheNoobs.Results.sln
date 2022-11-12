@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEM
 		.github\ISSUE_TEMPLATE\support_request.md = .github\ISSUE_TEMPLATE\support_request.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNoobs.Results.Extensions", "src\TheNoobs.Results.Extensions\TheNoobs.Results.Extensions.csproj", "{56FB9231-CF6C-4FB1-8207-F88716E1B1A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B36B2FF-2857-4C97-A752-ED495A08E709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56FB9231-CF6C-4FB1-8207-F88716E1B1A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56FB9231-CF6C-4FB1-8207-F88716E1B1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56FB9231-CF6C-4FB1-8207-F88716E1B1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56FB9231-CF6C-4FB1-8207-F88716E1B1A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{C9E6A926-6DE0-40C4-817F-B471C0130C59} = {ACD70BE2-C366-4C17-8BEF-0C2E9B0D64B6}
 		{5B36B2FF-2857-4C97-A752-ED495A08E709} = {E30E94BF-8338-4C75-8E7A-48DE20439FF5}
 		{58BF62B3-8DBC-470C-AD39-B4F5FB494DBD} = {09D1A5D8-3CDB-4B3A-BE0A-68A6C80AFD60}
+		{56FB9231-CF6C-4FB1-8207-F88716E1B1A8} = {ACD70BE2-C366-4C17-8BEF-0C2E9B0D64B6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D559252B-F98A-4192-9401-9DB96AE31BE1}

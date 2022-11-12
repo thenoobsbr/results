@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using TheNoobs.Results.Abstractions;
+using TheNoobs.Results.Extensions;
 using TheNoobs.Results.UnitTests.CustomData;
 using TheNoobs.Results.UnitTests.Stubs;
 using Xunit;
@@ -13,9 +14,78 @@ namespace TheNoobs.Results.UnitTests;
 public class ResultTests
 {
     [Fact]
+    public void
+        Given_AnAsyncErrorResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
+    {
+        var executed = false;
+        WhateverAsyncServiceStub.GetErrorAsync()
+            .Switch()
+            .Case<Success<string>>(DoOnSuccess)
+            .Case<MyValidation>(DoOnMyValidation)
+            .Else(DoOnElse);
+
+        executed.Should().BeTrue();
+
+        void DoOnSuccess(Success<string> result)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnMyValidation(MyValidation validation)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnElse(IResult def)
+        {
+            executed = true;
+            def.IsSuccess().Should().BeFalse();
+            def.IsFail().Should().BeTrue();
+            var isValueObtained = def.TryGetResult<string>(out var r);
+            isValueObtained.Should().BeFalse();
+            r.Should().Be(default);
+        }
+    }
+
+    [Fact]
+    public void Given_AnAsyncErrorResponse_When_DoASwitchWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
+    {
+        var executed = false;
+        WhateverAsyncServiceStub.GetSpecificErrorAsync()
+            .Switch()
+            .Case<Success<string>>(DoOnSuccess)
+            .Case<MySpecificError>(DoOnMySpecificError)
+            .Case<MyError>(DoOnMyError)
+            .Else(DoOnElse);
+
+        executed.Should().BeTrue();
+
+        void DoOnSuccess(Success<string> result)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnMyError(MyError error)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+
+        void DoOnMySpecificError(MySpecificError error)
+        {
+            executed = true;
+            error.Message.Should().Be("This is a specific error example.");
+        }
+
+        void DoOnElse(IResult def)
+        {
+            throw new Exception("This method cannot be called in this context.");
+        }
+    }
+
+    [Fact]
     public async Task Given_AnErrorResponse_When_DoAResultSwitchAsyncWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
     {
-        var response = WhateverServiceStub.GetSpecificError();
+        var response = await WhateverAsyncServiceStub.GetSpecificErrorAsync();
         var executed = false;
         var x = await response
             .SwitchAsync<int>()
@@ -131,9 +201,8 @@ public class ResultTests
     [Fact]
     public async Task Given_AnErrorResponse_When_DoASwitchAsyncWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
     {
-        var response = WhateverServiceStub.GetSpecificError();
         var executed = false;
-        await response
+        await WhateverAsyncServiceStub.GetSpecificErrorAsync()
             .SwitchAsync()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MySpecificError>(DoOnMySpecificError)
@@ -166,11 +235,11 @@ public class ResultTests
     }
 
     [Fact]
-    public async Task Given_AnErrorResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
+    public async Task
+        Given_AnErrorResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
     {
-        var response = WhateverServiceStub.GetError();
         var executed = false;
-        await response
+        await WhateverAsyncServiceStub.GetErrorAsync()
             .SwitchAsync()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
@@ -204,7 +273,7 @@ public class ResultTests
     public async Task
         Given_AnErrorResponse_When_DoASwitchAsyncWithResultWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
     {
-        var response = WhateverServiceStub.GetError();
+        var response = await WhateverAsyncServiceStub.GetErrorAsync();
         var executed = false;
         var result = await response
             .SwitchAsync<int>()
@@ -379,9 +448,10 @@ public class ResultTests
     }
 
     [Fact]
-    public async Task Given_AnSuccessResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
+    public async Task
+        Given_AnSuccessResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
     {
-        var response = WhateverServiceStub.GetSuccess();
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync();
         var executed = false;
         await response
             .SwitchAsync()
@@ -413,7 +483,7 @@ public class ResultTests
         Given_AnSuccessResponse_When_DoASwitchAsyncWithResponseWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled(
             int value)
     {
-        var response = WhateverServiceStub.GetSuccess(value);
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync(value);
         var executed = false;
         var result = await response
             .SwitchAsync<int>()
@@ -543,7 +613,7 @@ public class ResultTests
     [CustomAutoData]
     public async Task Given_ASucceedResponse_When_DoASwitchAsync_Then_TheResultMustBeAsExpected(int value)
     {
-        var response = WhateverServiceStub.GetSuccess(value);
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync(value);
 
         var executed = false;
         await response
@@ -572,7 +642,7 @@ public class ResultTests
     [CustomAutoData]
     public async Task Given_ASucceedResponse_When_DoASwitchAsyncWithReturn_Then_TheResultMustBeAsExpected(int value)
     {
-        var response = WhateverServiceStub.GetSuccess(value);
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync(value);
 
         var executed = false;
         var result = await response

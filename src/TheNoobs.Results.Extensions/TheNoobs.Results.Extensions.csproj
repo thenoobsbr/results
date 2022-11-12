@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <OutputType>library</OutputType>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyTitle>TheNoobs.Results.Extensions</AssemblyTitle>
+    <AssemblyName>TheNoobs.Results.Extensions</AssemblyName>
+    <RootNamespace>TheNoobs.Results.Extensions</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>The Noobs</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Result pattern extensions.</Description>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageId>TheNoobs.Results.Extensions</PackageId>
+    <PackageTags>Result pattern;</PackageTags>
+    <UserSecretsId>48376ece-407f-4767-8d8a-4b79c002ab1d</UserSecretsId>
+    <Version>1.0.0</Version>
+    <PackageProjectUrl>https://github.com/thenoobsbr/results.git</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\images\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TheNoobs.Results\TheNoobs.Results.csproj" />
+  </ItemGroup>
+</Project>
