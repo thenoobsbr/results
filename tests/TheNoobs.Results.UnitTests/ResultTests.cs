@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using TheNoobs.Results.Abstractions;
+using TheNoobs.Results.Extensions;
 using TheNoobs.Results.UnitTests.CustomData;
 using TheNoobs.Results.UnitTests.Stubs;
 using Xunit;
@@ -15,7 +16,7 @@ public class ResultTests
     [Fact]
     public async Task Given_AnErrorResponse_When_DoAResultSwitchAsyncWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
     {
-        var response = WhateverServiceStub.GetSpecificError();
+        var response = await WhateverAsyncServiceStub.GetSpecificErrorAsync();
         var executed = false;
         var x = await response
             .SwitchAsync<int>()
@@ -131,10 +132,9 @@ public class ResultTests
     [Fact]
     public async Task Given_AnErrorResponse_When_DoASwitchAsyncWithInheritance_Then_OnlyTheFirstShouldBeExecuted()
     {
-        var response = WhateverServiceStub.GetSpecificError();
         var executed = false;
-        await response
-            .SwitchAsync()
+        await WhateverAsyncServiceStub.GetSpecificErrorAsync()
+            .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MySpecificError>(DoOnMySpecificError)
             .Case<MyError>(DoOnMyError)
@@ -166,12 +166,12 @@ public class ResultTests
     }
 
     [Fact]
-    public async Task Given_AnErrorResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
+    public async Task
+        Given_AnErrorResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
     {
-        var response = WhateverServiceStub.GetError();
         var executed = false;
-        await response
-            .SwitchAsync()
+        await WhateverAsyncServiceStub.GetErrorAsync()
+            .Switch()
             .Case<Success<string>>(DoOnSuccess)
             .Case<MyValidation>(DoOnMyValidation)
             .Else(DoOnElse);
@@ -204,7 +204,7 @@ public class ResultTests
     public async Task
         Given_AnErrorResponse_When_DoASwitchAsyncWithResultWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
     {
-        var response = WhateverServiceStub.GetError();
+        var response = await WhateverAsyncServiceStub.GetErrorAsync();
         var executed = false;
         var result = await response
             .SwitchAsync<int>()
@@ -379,9 +379,10 @@ public class ResultTests
     }
 
     [Fact]
-    public async Task Given_AnSuccessResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
+    public async Task
+        Given_AnSuccessResponse_When_DoASwitchAsyncWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled()
     {
-        var response = WhateverServiceStub.GetSuccess();
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync();
         var executed = false;
         await response
             .SwitchAsync()
@@ -413,7 +414,7 @@ public class ResultTests
         Given_AnSuccessResponse_When_DoASwitchAsyncWithResponseWithoutTheExpectedErrorInCase_Then_TheDefaultShouldBeCalled(
             int value)
     {
-        var response = WhateverServiceStub.GetSuccess(value);
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync(value);
         var executed = false;
         var result = await response
             .SwitchAsync<int>()
@@ -543,7 +544,7 @@ public class ResultTests
     [CustomAutoData]
     public async Task Given_ASucceedResponse_When_DoASwitchAsync_Then_TheResultMustBeAsExpected(int value)
     {
-        var response = WhateverServiceStub.GetSuccess(value);
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync(value);
 
         var executed = false;
         await response
@@ -572,7 +573,7 @@ public class ResultTests
     [CustomAutoData]
     public async Task Given_ASucceedResponse_When_DoASwitchAsyncWithReturn_Then_TheResultMustBeAsExpected(int value)
     {
-        var response = WhateverServiceStub.GetSuccess(value);
+        var response = await WhateverAsyncServiceStub.GetSuccessAsync(value);
 
         var executed = false;
         var result = await response
